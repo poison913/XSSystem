@@ -18,6 +18,6 @@ export default {
   /* text-align: center; */
   color: #2c3e50; 
   height: 100%;
-  overflow-y: hidden;
+  overflow: auto;
 }
 </style>

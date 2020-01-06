@@ -1,16 +1,19 @@
-<template> 
-   <div class="sidebar" id="left" :style="{'width':width+'px'}">
+<template>   <!--   -->
+   <div class="sidebar" id="left" :style="{'width':width+'px'}" >
             <nav class="sidebar-nav">
               <el-row class="tac" style="    text-align: left;    margin-top: 60px;"> 
-                <el-col :span="24"> 
+                <el-col :span="24">  
+                  <!-- active-text-color="#ffd04b" -->
+                  <!-- :default-active="$route.path" -->
                   <el-menu  
                     @open="handleOpen"
                     @close="handleClose"
+                    :collapse="isCollapse"
                     background-color="#272727"
-                    text-color="#fff"
+                    text-color="#fff" 
                     router
-                    :default-active="$route.path"
-                    active-text-color="#ffd04b">
+                    
+                    >
                     <el-submenu index="1">
                       <template slot="title">
                         <i class="el-icon-location"></i>
@@ -20,6 +23,14 @@
                         <el-menu-item  @click="mapselect('terrain')"  >地形地貌数据</el-menu-item>
                         <el-menu-item  @click="mapselect('river')"   >河流水系数据</el-menu-item>
                         <el-menu-item  @click="mapselect('basin')" >河流流域数据</el-menu-item> 
+                        <el-menu-item  @click="mapselect('boundarybasin')" >小流域边界</el-menu-item> 
+                        <el-submenu  index="1-4"  >
+                          <template slot="title">土地利用数据</template>
+                          <!--<el-menu-item v-for="tab in tabs" index='tab.index' @click="toggle(tab.view)">{{tab.label}}</el-menu-item>-->
+                          <el-menu-item   @click="mapselect('buildingSHP')"  >建设用地</el-menu-item>
+                          <el-menu-item   @click="mapselect('agricultureSHP')"  >农业用地</el-menu-item>
+                          <el-menu-item   @click="mapselect('yuandiSHP')"  >园地</el-menu-item> 
+                        </el-submenu>  
                       </el-menu-item-group> 
                     </el-submenu>  
                     <el-submenu index="2">
@@ -28,9 +39,9 @@
                         <span>水文气象模块</span>
                       </template>
                       <el-menu-item-group> 
-                        <el-menu-item index="/water/rainstation">雨量站分布</el-menu-item>
-                        <el-menu-item index="/water/scene">气象站分布</el-menu-item>
-                        <el-menu-item index="/water/rain">降雨统计分析</el-menu-item> 
+                        <el-menu-item    @click="mapselect('rainStation')">雨量站分布</el-menu-item>
+                        <el-menu-item    @click="mapselect('waterStation')">水文站分布</el-menu-item>
+                        <el-menu-item index="/water/rain">降雨径流模型关系</el-menu-item> 
                       </el-menu-item-group> 
                     </el-submenu> 
                     
@@ -40,11 +51,18 @@
                         <span>环境信息模块</span>
                       </template>
                       <el-menu-item-group> 
-                        <el-menu-item index="/Env/source">工业源分布</el-menu-item>
-                        <el-menu-item index="/Env/factory">污水处理厂分布</el-menu-item>
-                        <el-menu-item index="/Env/riverData">河流及闸口环境监测数据</el-menu-item> 
-                        <el-menu-item index="/Env/redtide">赤潮监测点位数据</el-menu-item>
-                        <el-menu-item index="/Env/analysis">环境数据分析</el-menu-item> 
+                        <el-menu-item  @click="mapselect('waterFac')">工业源分布</el-menu-item>
+                        <el-menu-item  @click="mapselect('pollutionDac')">污水处理厂分布</el-menu-item>
+                        <!-- <el-menu-item  @click="mapselect('waterFac')">河流及闸口环境监测数据</el-menu-item>  -->
+                         <el-submenu  index="2-4"  >
+                          <template slot="title">河流及闸口环境监测数据</template>
+                          <!--<el-menu-item v-for="tab in tabs" index='tab.index' @click="toggle(tab.view)">{{tab.label}}</el-menu-item>-->
+                          <el-menu-item   @click="mapselect('monitor201804')"  >2018年4月数据</el-menu-item>
+                          <el-menu-item   @click="mapselect('monitor201810')"  >2018年10月数据</el-menu-item> 
+                        </el-submenu>  
+                        <el-menu-item  @click="mapselect('redPOI')">赤潮监测点位数据</el-menu-item>
+                        <!-- <el-menu-item  @click="mapselect('waterFac')">环境数据分析</el-menu-item>  -->
+                        <el-menu-item  @click="mapselect('checkenFac')">规模畜禽养殖分布</el-menu-item> 
                       </el-menu-item-group> 
                     </el-submenu> 
                     
@@ -65,13 +83,13 @@
                     <el-submenu index="5">
                       <template slot="title">
                         <i class="el-icon-sunrise-1"></i>
-                        <span>入海总量控制项目库</span>
+                        <span>入海总量控制方案库</span>
                       </template>
                       <el-menu-item-group> 
-                        <el-menu-item index="/seadata/nitrogen">入海总氮控制项目库清单</el-menu-item>
-                        <el-menu-item index="/seadata/performance">项目环境绩效核算模型</el-menu-item>
-                        <el-menu-item index="/seadata/show">挂图作战展示系统</el-menu-item> 
-                        <el-menu-item index="/seadata/feedback">项目跟踪反馈系统</el-menu-item> 
+                        <el-menu-item index="/seadata/nitrogen">环境容量与削减量分配</el-menu-item>
+                        <el-menu-item index="/seadata/performance">重点工程项目表</el-menu-item>
+                        <!-- <el-menu-item index="/seadata/show">挂图作战展示系统</el-menu-item>  -->
+                        <el-menu-item index="/seadata/feedback">总量控制任务分解表</el-menu-item> 
                       </el-menu-item-group> 
                     </el-submenu> 
                     
@@ -93,7 +111,8 @@ export default {
   },
   data() { 
      return{ 
-       width:240
+       width:240,
+       isCollapse:false
      }
   },
   created() {},
@@ -103,34 +122,65 @@ export default {
     handleOpen(key, keyPath) {
      /*  console.log(this,this.$route.path);
       console.log("open", key, keyPath); */
-      if("/Map"!=this.$route.path){
+      // if("/Map"!=this.$route.path){
+      //   this.$router.push({ path: "/Map" });
+      // }
+      if(key=="1"){
         this.$router.push({ path: "/Map" });
       }
     },
     handleClose(key, keyPath) {
       //console.log("close", key, keyPath);
-       if("/Map"!=this.$route.path){
-        this.$router.push({ path: "/Map" });
-      }
+      //  if("/Map"!=this.$route.path){
+      //   this.$router.push({ path: "/Map" });
+      // }
+      //  if(key=="1"){
+      //   this.$router.push({ path: "/Map" });
+      // }
     },
     editWidth(){
       if(this.width==240){
-        this.width = 0;
+        this.isCollapse = true; 
+        this.width = 64
+        //let _this  = this;
+        // setTimeout(function(){_this.width = 64;},1000)
+       
       }else{
-        this.width = 240;
+        this.isCollapse = false;
+        this.width = 240
+        //let _this  = this;
+        //setTimeout(function(){_this.width = 240;},500) 
       }
+    },
+    sleep(numberMillis) { 
+      var now = new Date(); 
+      var exitTime = now.getTime() + numberMillis; 
+      while (true) { 
+      now = new Date(); 
+      if (now.getTime() > exitTime) 
+        return; 
+      } 
     },
     mapselect(val){
       //alert(val) 
       debugger
-      this.$emit("maplayer",val)
+      if(!this.$route.path.startsWith("/Map")){
+        this.$router.push({ name: "mappage",params:{layer :val} });
+        //let _this  = this;
+        //setTimeout(function(){_this.$emit("maplayer",val);},100) 
+      }else
+        this.$emit("maplayer",val)
     }
    }
 };
 </script>
 
 <style scoped  >  
-
+@import url("//unpkg.com/element-ui@2.13.0/lib/theme-chalk/index.css");
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 240px;
+    min-height: 400px;
+  }
 
 .sidebar-fixed .content {
   margin-left: 240px;
@@ -158,8 +208,8 @@ export default {
     top: 0;
     bottom: 0;
     left: 0;
-    -webkit-transition: all .3s;
-    transition: all .3s;
+    -webkit-transition: all .1s;
+    transition: all .1s;
     z-index: 99
 }
 

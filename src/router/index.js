@@ -7,6 +7,7 @@ import Layout from "../view/layout"
 
 Vue.use(Router)
 export default new Router({
+  base: '/XSSystemNew',
   routes: [
     {
       path: '/',//首页 
@@ -56,7 +57,7 @@ export default new Router({
       },{
         path: 'rain',
         name: '降雨统计分析', 
-        component: () => import('@/view/page/404') , 
+        component: () => import('@/view/water/rain') , 
         meta: {
             requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
         }
@@ -154,14 +155,14 @@ export default new Router({
       children: [{
         path: 'nitrogen',
         name: '入海总氮控制项目库清单', 
-        component: () => import('@/view/page/404') , 
+        component: () => import('@/view/seadata/nitrogen') , 
         meta: {
             requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
         }
       },{
         path: 'performance',
         name: '项目环境绩效核算模型', 
-        component: () => import('@/view/page/404') , 
+        component: () => import('@/view/seadata/performance') , 
         meta: {
             requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
         }
@@ -175,7 +176,7 @@ export default new Router({
       },{
         path: 'feedback',
         name: '项目跟踪反馈系统', 
-        component: () => import('@/view/page/404') , 
+        component: () => import('@/view/seadata/feedback') , 
         meta: {
             requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
         }

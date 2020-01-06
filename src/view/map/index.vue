@@ -19,7 +19,7 @@ export default {
   props: ['searchVal'],
   watch: {
       searchVal: function (val) {   
-        //alert(val);   // 接收父组件的值
+           //alert(val);   // 接收父组件的值
         if(val.startsWith("terrain")){
             if(this.map.hasLayer(this.dem)){
                 this.map.removeLayer(this.dem)
@@ -38,11 +38,88 @@ export default {
             }else{
                 this.map.addLayer(this.Watershe)
             } 
+        }else if(val.startsWith("boundarybasin")){
+            if(this.map.hasLayer(this.boundarybasin)){
+                this.map.removeLayer(this.boundarybasin)
+            }else{
+                this.map.addLayer(this.boundarybasin)
+            } 
+        }else if(val.startsWith("waterStation")){
+            if(this.map.hasLayer(this.waterStation)){
+                this.map.removeLayer(this.waterStation)
+            }else{
+                this.map.addLayer(this.waterStation)
+            } 
+        }else if(val.startsWith("rainStation")){
+            if(this.map.hasLayer(this.rainStation)){
+                this.map.removeLayer(this.rainStation)
+            }else{
+                this.map.addLayer(this.rainStation)
+            } 
+        }else if(val.startsWith("yuandiSHP")){
+            if(this.map.hasLayer(this.yuandiSHP)){
+                this.map.removeLayer(this.yuandiSHP)
+            }else{
+                this.map.addLayer(this.yuandiSHP)
+            } 
+        }else if(val.startsWith("buildingSHP")){
+            if(this.map.hasLayer(this.buildingSHP)){
+                this.map.removeLayer(this.buildingSHP)
+            }else{
+                this.map.addLayer(this.buildingSHP)
+            } 
+        }else if(val.startsWith("agricultureSHP")){
+            if(this.map.hasLayer(this.agricultureSHP)){
+                this.map.removeLayer(this.agricultureSHP)
+            }else{
+                this.map.addLayer(this.agricultureSHP)
+            } 
+        }else if(val.startsWith("waterFac")){
+            if(this.map.hasLayer(this.waterFac)){
+                this.map.removeLayer(this.waterFac)
+            }else{
+                this.map.addLayer(this.waterFac)
+            } 
+        }else if(val.startsWith("redPOI")){
+            if(this.map.hasLayer(this.redPOI)){
+                this.map.removeLayer(this.redPOI)
+            }else{
+                this.map.addLayer(this.redPOI)
+            } 
+        }else if(val.startsWith("checkenFac")){
+            if(this.map.hasLayer(this.checkenFac)){
+                this.map.removeLayer(this.checkenFac)
+            }else{
+                this.map.addLayer(this.checkenFac)
+            } 
+        }else if(val.startsWith("monitor201804")){
+            if(this.map.hasLayer(this.monitor201804)){
+                this.map.removeLayer(this.monitor201804)
+            }else{
+                this.map.addLayer(this.monitor201804)
+            } 
+        }else if(val.startsWith("monitor201810")){
+            if(this.map.hasLayer(this.monitor201810)){
+                this.map.removeLayer(this.monitor201810)
+            }else{
+                this.map.addLayer(this.monitor201810)
+            } 
+        }else if(val.startsWith("pollutionDac")){
+            if(this.map.hasLayer(this.pollutionDac)){
+                this.map.removeLayer(this.pollutionDac)
+            }else{
+                this.map.addLayer(this.pollutionDac)
+            } 
         }
+
       }
     },
   created() {},
   mounted() { 
+      debugger
+      if( this.$route.params.layer){
+          this.searchVal = this.$route.params.layer
+      }
     //定义天地图的底图
     let normalm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
         maxZoom: 18,
@@ -131,6 +208,84 @@ export default {
         format: 'image/png',
         transparent: true
     });
+    //小流域边界
+    this.boundarybasin = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:小流域边界',
+        format: 'image/png',
+        transparent: true
+    }); 
+    //水文站  
+    this.waterStation = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:洪家塔水文站',
+        format: 'image/png',
+        transparent: true
+    });
+    //雨量站  
+    this.rainStation = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:雨量站点分布',
+        format: 'image/png',
+        transparent: true
+    });
+    //园地  
+    this.yuandiSHP = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:园地',
+        format: 'image/png',
+        transparent: true
+    });
+    //建设用地  
+    this.buildingSHP = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:建设用地',
+        format: 'image/png',
+        transparent: true
+    });
+     //农业用地  
+    this.agricultureSHP = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:农业用地',
+        format: 'image/png',
+        transparent: true
+    }); 
+     //直排企业   工业源分布
+    this.waterFac = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:直排企业',
+        format: 'image/png',
+        transparent: true
+    });
+     //赤潮点位分布  
+    this.redPOI = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:赤潮点位分布',
+        format: 'image/png',
+        transparent: true
+    });
+     //规模畜禽养殖  
+    this.checkenFac = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:规模畜禽养殖',
+        format: 'image/png',
+        transparent: true
+    });
+     //XSEnv:2018年4月监测数据  
+    this.monitor201804 = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:2018年4月监测数据',
+        format: 'image/png',
+        transparent: true
+    });
+     //:2018年10月监测数据  
+    this.monitor201810 = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:2018年10月监测数据',
+        format: 'image/png',
+        transparent: true
+    });
+     //:污水处理厂  
+    this.pollutionDac = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+        layers: 'XSEnv:污水处理厂',
+        format: 'image/png',
+        transparent: true
+    }); 
+    // //:小流域边界  
+    // this.basinboundary = L.tileLayer.wms("http://120.55.56.109:8080/geoserver/XSEnv/wms?service=WMS", {
+    //     layers: 'XSEnv:小流域边界',
+    //     format: 'image/png',
+    //     transparent: true
+    // });  
     this.overlayLayers ={
         "研究区":studyArea,
         //"地形数据":dem,
@@ -214,7 +369,7 @@ export default {
             i.bringToBack();
         }
     }
-  }
+  } 
 };
 </script>
 

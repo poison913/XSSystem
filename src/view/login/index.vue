@@ -107,12 +107,13 @@
     color: #303133;
   }
   #main{
-    position: fixed;
+    position: absolute;
     width: 100%;
     height: 100%;
     background: url("../../assets/bg1.jpg");
     background-size: 100% 100%;    
-    min-width: 1500px;
+    min-width: 1500px; 
+    overflow: auto;
   }
   h1 {
     font-family: 'Exo 2', sans-serif;

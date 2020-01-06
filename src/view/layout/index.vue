@@ -4,7 +4,7 @@
     <sidebar 
       ref="mySidebar" v-on:maplayer="maplayer"
     />
-    <!-- <navbar/> -->
+    <!-- <navbar/>  -->
     <section class="app-main"  :style="{'padding-left':left+'px'}">
       <transition name="fade-transform" mode="out-in">
         <!-- or name="fade" -->
@@ -41,7 +41,7 @@ export default {
      sliderChange(){
        this.$refs.mySidebar.editWidth(); 
          if(this.left==240){
-          this.left = 0;
+          this.left = 64;
         }else{
           this.left = 240;
         }
